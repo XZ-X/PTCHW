@@ -559,18 +559,18 @@ And the answer should be $(R+L_6T^*S)^*$.\\
 
 	\node[initial, initial text={start}, state] (A) {$A$};
 	\node[accepting, state]    (B)     [above right of = A]  {$B$};
-    \node[state]    (C)     [right of = B]  {$C$};
+	\node[state]    (C)     [right of = B]  {$C$};
 	\node[ state]    (D)     [below right of = A]  {$D$};
-    \node[accepting, state]    (E)     [right of = D]  {$E$};
-    
-    \path[]
+	\node[accepting, state]    (E)     [right of = D]  {$E$};
+
+	\path[]
 	(A) edge [bend left]   node {$0$}  (B)
 	(A) edge [bend right]   node {$1$}  (D)
 	(B) edge [bend left]   node {$0+1$}  (C)
 	(C) edge [bend left]   node {$0+1$}  (B)
 	(D) edge [bend left]   node {$0+1$}  (E)
 	(E) edge [bend left]   node {$0+1$}  (D)
-    
+
 	;
 
 \end{tikzpicture}\\
@@ -581,16 +581,16 @@ It can be simplified to the following DFA.\\
 	[->,>=stealth',shorten >=1pt,auto,node distance=4cm,
 		thick,base node/.style={circle,draw,minimum size=16pt}, real node/.style={double,circle,draw,minimum size=35pt}]
 
-    \node[accepting, state]    (B)       {$B$};
+	\node[accepting, state]    (B)       {$B$};
 	\node[initial, initial text={start}, state] [below right of=B] (A) {$A$};
-    \node[state]    (C)     [above right of = A]  {$C$};
-    
-    \path[]
+	\node[state]    (C)     [above right of = A]  {$C$};
+
+	\path[]
 	(A) edge [bend left]   node {$0$}  (B)
 	(A) edge [bend right]   node {$1$}  (C)
 	(B) edge [bend left]   node {$0+1$}  (C)
 	(C) edge [bend left]   node {$0+1$}  (B)
-    
+
 	;
 
 \end{tikzpicture}\\
@@ -601,16 +601,16 @@ Delete C, we get:\\
 	[->,>=stealth',shorten >=1pt,auto,node distance=4cm,
 		thick,base node/.style={circle,draw,minimum size=16pt}, real node/.style={double,circle,draw,minimum size=35pt}]
 
-    \node[accepting, state]    (B)       {$B$};
+	\node[accepting, state]    (B)       {$B$};
 	\node[initial, initial text={start}, state] [right of=B] (A) {$A$};
-    % \node[state]    (C)     [above right of = A]  {$C$};
-    
-    \path[]
+	% \node[state]    (C)     [above right of = A]  {$C$};
+
+	\path[]
 	(A) edge [bend left]   node {$0+1(0+1)$}  (B)
 	% (A) edge [bend right]   node {$1$}  (C)
 	% (B) edge [bend left]   node {$0+1$}  (C)
 	(B) edge [loop left]   node {$(0+1)(0+1)$}  (B)
-    
+
 	;
 
 \end{tikzpicture}\\
@@ -626,11 +626,11 @@ First, let's construct two automata, noted as M1 and M2.\\
 	[->,>=stealth',shorten >=1pt,auto,node distance=2cm,
 		thick,base node/.style={circle,draw,minimum size=16pt}, real node/.style={double,circle,draw,minimum size=35pt}]
 
-    \node[initial, initial text={start},accepting, state]  (A1) {$A_1$};
-    \node[state]  [right of=A1]  (B1)       {$B_1$};
-    % \node[state]    (C)     [above right of = A]  {$C$};
-    
-    \path[]
+	\node[initial, initial text={start},accepting, state]  (A1) {$A_1$};
+	\node[state]  [right of=A1]  (B1)       {$B_1$};
+	% \node[state]    (C)     [above right of = A]  {$C$};
+
+	\path[]
 	(A1) edge [bend left]   node {$0$}  (B1)
 	(A1) edge [loop below]   node {$1$}  (A1)
 	(B1) edge [bend left]   node {$0$}  (A1)
@@ -638,7 +638,7 @@ First, let's construct two automata, noted as M1 and M2.\\
 	% (A) edge [bend right]   node {$1$}  (C)
 	% (B) edge [bend left]   node {$0+1$}  (C)
 	% (B) edge [loop left]   node {$(0+1)(0+1)$}  (B)
-    
+
 	;
 
 \end{tikzpicture}\\
@@ -647,21 +647,21 @@ First, let's construct two automata, noted as M1 and M2.\\
 	[->,>=stealth',shorten >=1pt,auto,node distance=2cm,
 		thick,base node/.style={circle,draw,minimum size=16pt}, real node/.style={double,circle,draw,minimum size=35pt}]
 
-    \node[initial, initial text={start}, state]  (A2) {$A_2$};
-    \node[state]  [right of=A2]  (B2)       {$B_2$};
-    \node[state]  [right of=B2]  (C2)       {$C_2$};
-    \node[state]  [right of=C2]  (D2)       {$D_2$};
-    % \node[state]    (C)     [above right of = A]  {$C$};
-    
-    \path[]
+	\node[initial, initial text={start}, state]  (A2) {$A_2$};
+	\node[state]  [right of=A2]  (B2)       {$B_2$};
+	\node[state,accepting]  [right of=B2]  (C2)       {$C_2$};
+	\node[state]  [right of=C2]  (D2)       {$D_2$};
+	% \node[state]    (C)     [above right of = A]  {$C$};
+
+	\path[]
 	(A2) edge [bend left]   node {$1$}  (B2)
 	(A2) edge [loop below]   node {$0$}  (A2)
 	(B2) edge [loop below]   node {$0$}  (B2)
-    (C2) edge [loop below]   node {$0$}  (C2)
+	(C2) edge [loop below]   node {$0$}  (C2)
 	(B2) edge [bend left]   node {$1$}  (C2)
 	(C2) edge [bend left]   node {$1$}  (D2)
-    (D2) edge [loop right]   node {$0+1$}  (D2)
-    
+	(D2) edge [loop right]   node {$0+1$}  (D2)
+
 	;
 
 \end{tikzpicture}\\
@@ -672,35 +672,35 @@ Then we make the product of M1 and M2.\\
 	[->,>=stealth',shorten >=1pt,auto,node distance=2cm,
 		thick,base node/.style={circle,draw,minimum size=16pt}, real node/.style={double,circle,draw,minimum size=35pt}]
 
-    \node[accepting, initial, initial text={start}, state]  (A) {$A_1A_2$};
-    \node[accepting,state]  [right of=A]  (B)       {$A_1B_2$};
-    \node[accepting,state]  [right of=B]  (C)       {$A_1C_2$};
-    \node[accepting,state]  [right of=C]  (D)       {$A_1D_2$};
-    \node[state]  [below of=A]  (E)       {$B_1A_2$};
-    \node[state]  [right of=E]  (F)       {$B_1B_2$};
-    \node[accepting,state]  [right of=F]  (G)       {$B_1C_2$};
-    \node[state]  [right of=G]  (H)       {$B_1D_2$};
-    % \node[state]    (C)     [above right of = A]  {$C$};
-    
-    \path[]
+	\node[accepting, initial, initial text={start}, state]  (A) {$A_1A_2$};
+	\node[accepting,state]  [right of=A]  (B)       {$A_1B_2$};
+	\node[accepting,state]  [right of=B]  (C)       {$A_1C_2$};
+	\node[accepting,state]  [right of=C]  (D)       {$A_1D_2$};
+	\node[state]  [below of=A]  (E)       {$B_1A_2$};
+	\node[state]  [right of=E]  (F)       {$B_1B_2$};
+	\node[accepting,state]  [right of=F]  (G)       {$B_1C_2$};
+	\node[state]  [right of=G]  (H)       {$B_1D_2$};
+	% \node[state]    (C)     [above right of = A]  {$C$};
+
+	\path[]
 	(A) edge [bend left]   node {$1$}  (B)
 	(B) edge [bend left]   node {$1$}  (C)
-    (C) edge [bend left]   node {$1$}  (D)
-    
-    (E) edge [bend right]   node {$1$}  (F)
+	(C) edge [bend left]   node {$1$}  (D)
+
+	(E) edge [bend right]   node {$1$}  (F)
 	(F) edge [bend right]   node {$1$}  (G)
-    (G) edge [bend right]   node {$1$}  (H)
-    
-    (D) edge [loop right]   node {$1$}  (D)
-    (H) edge [loop right]   node {$1$}  (H)
-    
+	(G) edge [bend right]   node {$1$}  (H)
+
+	(D) edge [loop right]   node {$1$}  (D)
+	(H) edge [loop right]   node {$1$}  (H)
+
 	(A) edge [bend left]   node {$0$}  (E)
 	(E) edge [bend left]   node {$0$}  (A)
-    (B) edge [bend left]   node {$0$}  (F)
-    (F) edge [bend left]   node {$0$}  (B)
-    (C) edge [bend left]   node {$0$}  (G)
+	(B) edge [bend left]   node {$0$}  (F)
+	(F) edge [bend left]   node {$0$}  (B)
+	(C) edge [bend left]   node {$0$}  (G)
 	(G) edge [bend left]   node {$0$}  (C)
-    (D) edge [bend left]   node {$0$}  (H)
+	(D) edge [bend left]   node {$0$}  (H)
 	(H) edge [bend left]   node {$0$}  (D)
 	;
 
@@ -712,35 +712,35 @@ Then we rename it as follows:\\
 	[->,>=stealth',shorten >=1pt,auto,node distance=2cm,
 		thick,base node/.style={circle,draw,minimum size=16pt}, real node/.style={double,circle,draw,minimum size=35pt}]
 
-    \node[accepting, initial, initial text={start}, state]  (A) {$A$};
-    \node[accepting,state]  [right of=A]  (B)       {$B$};
-    \node[accepting,state]  [right of=B]  (C)       {$C$};
-    \node[accepting,state]  [right of=C]  (D)       {$D$};
-    \node[state]  [below of=A]  (E)       {$E$};
-    \node[state]  [right of=E]  (F)       {$F$};
-    \node[accepting,state]  [right of=F]  (G)       {$G$};
-    \node[state]  [right of=G]  (H)       {$H$};
-    % \node[state]    (C)     [above right of = A]  {$C$};
-    
-    \path[]
+	\node[accepting, initial, initial text={start}, state]  (A) {$A$};
+	\node[accepting,state]  [right of=A]  (B)       {$B$};
+	\node[accepting,state]  [right of=B]  (C)       {$C$};
+	\node[accepting,state]  [right of=C]  (D)       {$D$};
+	\node[state]  [below of=A]  (E)       {$E$};
+	\node[state]  [right of=E]  (F)       {$F$};
+	\node[accepting,state]  [right of=F]  (G)       {$G$};
+	\node[state]  [right of=G]  (H)       {$H$};
+	% \node[state]    (C)     [above right of = A]  {$C$};
+
+	\path[]
 	(A) edge [bend left]   node {$1$}  (B)
 	(B) edge [bend left]   node {$1$}  (C)
-    (C) edge [bend left]   node {$1$}  (D)
-    
-    (E) edge [bend right]   node {$1$}  (F)
+	(C) edge [bend left]   node {$1$}  (D)
+
+	(E) edge [bend right]   node {$1$}  (F)
 	(F) edge [bend right]   node {$1$}  (G)
-    (G) edge [bend right]   node {$1$}  (H)
-    
-    (D) edge [loop right]   node {$1$}  (D)
-    (H) edge [loop right]   node {$1$}  (H)
-    
+	(G) edge [bend right]   node {$1$}  (H)
+
+	(D) edge [loop right]   node {$1$}  (D)
+	(H) edge [loop right]   node {$1$}  (H)
+
 	(A) edge [bend left]   node {$0$}  (E)
 	(E) edge [bend left]   node {$0$}  (A)
-    (B) edge [bend left]   node {$0$}  (F)
-    (F) edge [bend left]   node {$0$}  (B)
-    (C) edge [bend left]   node {$0$}  (G)
+	(B) edge [bend left]   node {$0$}  (F)
+	(F) edge [bend left]   node {$0$}  (B)
+	(C) edge [bend left]   node {$0$}  (G)
 	(G) edge [bend left]   node {$0$}  (C)
-    (D) edge [bend left]   node {$0$}  (H)
+	(D) edge [bend left]   node {$0$}  (H)
 	(H) edge [bend left]   node {$0$}  (D)
 	;
 
@@ -752,36 +752,36 @@ Delete F, \\
 	[->,>=stealth',shorten >=1pt,auto,node distance=2cm,
 		thick,base node/.style={circle,draw,minimum size=16pt}, real node/.style={double,circle,draw,minimum size=35pt}]
 
-    \node[accepting, initial, initial text={start}, state]  (A) {$A$};
-    \node[accepting,state]  [right of=A]  (B)       {$B$};
-    \node[accepting,state]  [right of=B]  (C)       {$C$};
-    \node[accepting,state]  [right of=C]  (D)       {$D$};
-    \node[state]  [below of=A]  (E)       {$E$};
-    % \node[state]  [right of=E]  (F)       {$F$};
-    \node[accepting,state]  [right of=F]  (G)       {$G$};
-    \node[state]  [right of=G]  (H)       {$H$};
-    % \node[state]    (C)     [above right of = A]  {$C$};
-    
-    \path[]
+	\node[accepting, initial, initial text={start}, state]  (A) {$A$};
+	\node[accepting,state]  [right of=A]  (B)       {$B$};
+	\node[accepting,state]  [right of=B]  (C)       {$C$};
+	\node[accepting,state]  [right of=C]  (D)       {$D$};
+	\node[state]  [below of=A]  (E)       {$E$};
+	% \node[state]  [right of=E]  (F)       {$F$};
+	\node[accepting,state]  [right of=F]  (G)       {$G$};
+	\node[state]  [right of=G]  (H)       {$H$};
+	% \node[state]    (C)     [above right of = A]  {$C$};
+
+	\path[]
 	(A) edge [bend left]   node {$1$}  (B)
 	(B) edge [bend left]   node {$1$}  (C)
-    (C) edge [bend left]   node {$1$}  (D)
-    
-    (E) edge [bend right]   node {$10$}  (B)
+	(C) edge [bend left]   node {$1$}  (D)
+
+	(E) edge [bend right]   node {$10$}  (B)
 	(E) edge [bend right]   node {$11$}  (G)
 	(B) edge [bend right]   node {$01$}  (G)
-    (G) edge [bend right]   node {$1$}  (H)
-    
-    (D) edge [loop right]   node {$1$}  (D)
-    (H) edge [loop right]   node {$1$}  (H)
-    
+	(G) edge [bend right]   node {$1$}  (H)
+
+	(D) edge [loop right]   node {$1$}  (D)
+	(H) edge [loop right]   node {$1$}  (H)
+
 	(A) edge [bend left]   node {$0$}  (E)
 	(E) edge [bend left]   node {$0$}  (A)
-    (B) edge [loop above]   node {$00$}  (B)
-    % (F) edge [bend left]   node {$0$}  (B)
-    (C) edge [bend left]   node {$0$}  (G)
+	(B) edge [loop above]   node {$00$}  (B)
+	% (F) edge [bend left]   node {$0$}  (B)
+	(C) edge [bend left]   node {$0$}  (G)
 	(G) edge [bend left]   node {$0$}  (C)
-    (D) edge [bend left]   node {$0$}  (H)
+	(D) edge [bend left]   node {$0$}  (H)
 	(H) edge [bend left]   node {$0$}  (D)
 	;
 
@@ -793,36 +793,36 @@ Delete E,\\
 	[->,>=stealth',shorten >=1pt,auto,node distance=2cm,
 		thick,base node/.style={circle,draw,minimum size=16pt}, real node/.style={double,circle,draw,minimum size=35pt}]
 
-    \node[accepting, initial, initial text={start}, state]  (A) {$A$};
-    \node[accepting,state]  [right of=A]  (B)       {$B$};
-    \node[accepting,state]  [right of=B]  (C)       {$C$};
-    \node[accepting,state]  [right of=C]  (D)       {$D$};
-    % \node[state]  [below of=A]  (E)       {$E$};
-    % \node[state]  [right of=E]  (F)       {$F$};
-    \node[accepting,state]  [right of=F]  (G)       {$G$};
-    \node[state]  [right of=G]  (H)       {$H$};
-    % \node[state]    (C)     [above right of = A]  {$C$};
-    
-    \path[]
+	\node[accepting, initial, initial text={start}, state]  (A) {$A$};
+	\node[accepting,state]  [right of=A]  (B)       {$B$};
+	\node[accepting,state]  [right of=B]  (C)       {$C$};
+	\node[accepting,state]  [right of=C]  (D)       {$D$};
+	% \node[state]  [below of=A]  (E)       {$E$};
+	% \node[state]  [right of=E]  (F)       {$F$};
+	\node[accepting,state]  [right of=F]  (G)       {$G$};
+	\node[state]  [right of=G]  (H)       {$H$};
+	% \node[state]    (C)     [above right of = A]  {$C$};
+
+	\path[]
 	(A) edge [bend left]   node {$1+010$}  (B)
 	(A) edge [loop below]   node {$00$}  (A)
 	(B) edge [loop above]   node {$00$}  (B)
 	(B) edge [bend left]   node {$1$}  (C)
-    (C) edge [bend left]   node {$1$}  (D)
-    
-	(A) edge [bend right]   node {$011$}  (G)    
+	(C) edge [bend left]   node {$1$}  (D)
+
+	(A) edge [bend right]   node {$011$}  (G)
 	(B) edge [bend right]   node {$01$}  (G)
-    (G) edge [bend right]   node {$1$}  (H)
-    
-    (D) edge [loop right]   node {$1$}  (D)
-    (H) edge [loop right]   node {$1$}  (H)
-    
-	
-    % (B) edge [loop above]   node {$00$}  (B)
-    % (F) edge [bend left]   node {$0$}  (B)
-    (C) edge [bend left]   node {$0$}  (G)
+	(G) edge [bend right]   node {$1$}  (H)
+
+	(D) edge [loop right]   node {$1$}  (D)
+	(H) edge [loop right]   node {$1$}  (H)
+
+
+	% (B) edge [loop above]   node {$00$}  (B)
+	% (F) edge [bend left]   node {$0$}  (B)
+	(C) edge [bend left]   node {$0$}  (G)
 	(G) edge [bend left]   node {$0$}  (C)
-    (D) edge [bend left]   node {$0$}  (H)
+	(D) edge [bend left]   node {$0$}  (H)
 	(H) edge [bend left]   node {$0$}  (D)
 	;
 
@@ -834,37 +834,37 @@ Delete H,\\
 	[->,>=stealth',shorten >=1pt,auto,node distance=3cm,
 		thick,base node/.style={circle,draw,minimum size=16pt}, real node/.style={double,circle,draw,minimum size=35pt}]
 
-    \node[accepting, initial, initial text={start}, state]  (A) {$A$};
-    \node[accepting,state]  [right of=A]  (B)       {$B$};
-    \node[accepting,state]  [right of=B]  (C)       {$C$};
-    \node[accepting,state]  [right of=C]  (D)       {$D$};
-    % \node[state]  [below of=A]  (E)       {$E$};
-    % \node[state]  [right of=E]  (F)       {$F$};
-    \node[accepting,state]  [right of=F]  (G)       {$G$};
-    % \node[state]  [right of=G]  (H)       {$H$};
-    % \node[state]    (C)     [above right of = A]  {$C$};
-    
-    \path[]
+	\node[accepting, initial, initial text={start}, state]  (A) {$A$};
+	\node[accepting,state]  [right of=A]  (B)       {$B$};
+	\node[accepting,state]  [right of=B]  (C)       {$C$};
+	\node[accepting,state]  [right of=C]  (D)       {$D$};
+	% \node[state]  [below of=A]  (E)       {$E$};
+	% \node[state]  [right of=E]  (F)       {$F$};
+	\node[accepting,state]  [right of=F]  (G)       {$G$};
+	% \node[state]  [right of=G]  (H)       {$H$};
+	% \node[state]    (C)     [above right of = A]  {$C$};
+
+	\path[]
 	(A) edge [bend left]   node {$1+010$}  (B)
 	(A) edge [loop below]   node {$00$}  (A)
 	(B) edge [loop above]   node {$00$}  (B)
 	(B) edge [bend left]   node {$1$}  (C)
-    (C) edge [bend left]   node {$1$}  (D)
-    
-	(A) edge [bend right]   node {$011$}  (G)    
+	(C) edge [bend left]   node {$1$}  (D)
+
+	(A) edge [bend right]   node {$011$}  (G)
 	(B) edge [bend right]   node {$01$}  (G)
-    % (G) edge [bend right]   node {$1$}  (H)
-    
-    (D) edge [loop right]   node {$1+01^*0$}  (D)
-    % (H) edge [loop right]   node {$1$}  (H)
-    
-	
-    % (B) edge [loop above]   node {$00$}  (B)
-    % (F) edge [bend left]   node {$0$}  (B)
-    (C) edge [bend left]   node {$0$}  (G)
+	% (G) edge [bend right]   node {$1$}  (H)
+
+	(D) edge [loop right]   node {$1+01^*0$}  (D)
+	% (H) edge [loop right]   node {$1$}  (H)
+
+
+	% (B) edge [loop above]   node {$00$}  (B)
+	% (F) edge [bend left]   node {$0$}  (B)
+	(C) edge [bend left]   node {$0$}  (G)
 	(G) edge [bend left]   node {$0$}  (C)
 	(G) edge [bend right]   node {$11^*0$}  (D)
-    % (D) edge [bend left]   node {$0$}  (H)
+	% (D) edge [bend left]   node {$0$}  (H)
 	% (H) edge [bend left]   node {$0$}  (D)
 	;
 
@@ -878,38 +878,38 @@ Where \[L_1=011+(1+010)(00)^*01\]
 	[->,>=stealth',shorten >=1pt,auto,node distance=3cm,
 		thick,base node/.style={circle,draw,minimum size=16pt}, real node/.style={double,circle,draw,minimum size=35pt}]
 
-    \node[accepting, initial, initial text={start}, state]  (A) {$A$};
-    % \node[accepting,state]  [right of=A]  (B)       {$B$};
-    \node[accepting,state]  [right of=B]  (C)       {$C$};
-    \node[accepting,state]  [right of=C]  (D)       {$D$};
-    % \node[state]  [below of=A]  (E)       {$E$};
-    % \node[state]  [right of=E]  (F)       {$F$};
-    % \node[accepting,state]  [right of=F]  (G)       {$G$};
-    % \node[state]  [right of=G]  (H)       {$H$};
-    % \node[state]    (C)     [above right of = A]  {$C$};
-    
-    \path[]
+	\node[accepting, initial, initial text={start}, state]  (A) {$A$};
+	% \node[accepting,state]  [right of=A]  (B)       {$B$};
+	\node[accepting,state]  [right of=B]  (C)       {$C$};
+	\node[accepting,state]  [right of=C]  (D)       {$D$};
+	% \node[state]  [below of=A]  (E)       {$E$};
+	% \node[state]  [right of=E]  (F)       {$F$};
+	% \node[accepting,state]  [right of=F]  (G)       {$G$};
+	% \node[state]  [right of=G]  (H)       {$H$};
+	% \node[state]    (C)     [above right of = A]  {$C$};
+
+	\path[]
 	% (A) edge [bend left]   node {$1+010$}  (B)
 	(A) edge [loop below]   node {$00$}  (A)
 	% (B) edge [loop above]   node {$00$}  (B)
 	(A) edge   node {$L_2+L_10$}  (C)
-    (C) edge [loop above]   node {$(00)^*$}  (C)
-    (C) edge  node {$1+011^*0$}  (D)
-    
-	(A) edge [bend right]   node {$L_111^*0$}  (D)    
+	(C) edge [loop above]   node {$(00)^*$}  (C)
+	(C) edge  node {$1+011^*0$}  (D)
+
+	(A) edge [bend right]   node {$L_111^*0$}  (D)
 	% (B) edge [bend right]   node {$01$}  (G)
-    % (G) edge [bend right]   node {$1$}  (H)
-    
-    (D) edge [loop right]   node {$1+01^*0$}  (D)
-    % (H) edge [loop right]   node {$1$}  (H)
-    
-	
-    % (B) edge [loop above]   node {$00$}  (B)
-    % (F) edge [bend left]   node {$0$}  (B)
-    % (C) edge [bend left]   node {$0$}  (G)
+	% (G) edge [bend right]   node {$1$}  (H)
+
+	(D) edge [loop right]   node {$1+01^*0$}  (D)
+	% (H) edge [loop right]   node {$1$}  (H)
+
+
+	% (B) edge [loop above]   node {$00$}  (B)
+	% (F) edge [bend left]   node {$0$}  (B)
+	% (C) edge [bend left]   node {$0$}  (G)
 	% (G) edge [bend left]   node {$0$}  (C)
 	% (G) edge [bend right]   node {$11^*0$}  (D)
-    % (D) edge [bend left]   node {$0$}  (H)
+	% (D) edge [bend left]   node {$0$}  (H)
 	% (H) edge [bend left]   node {$0$}  (D)
 	;
 
@@ -922,38 +922,38 @@ Then we can get $(00)^*(L_2+L_10)(00)^*$\\
 	[->,>=stealth',shorten >=1pt,auto,node distance=3cm,
 		thick,base node/.style={circle,draw,minimum size=16pt}, real node/.style={double,circle,draw,minimum size=35pt}]
 
-    \node[accepting, initial, initial text={start}, state]  (A) {$A$};
-    % \node[accepting,state]  [right of=A]  (B)       {$B$};
-    % \node[accepting,state]  [right of=B]  (C)       {$C$};
-    \node[accepting,state]  [right of=C]  (D)       {$D$};
-    % \node[state]  [below of=A]  (E)       {$E$};
-    % \node[state]  [right of=E]  (F)       {$F$};
-    \node[accepting,state]  [right of=F]  (G)       {$G$};
-    % \node[state]  [right of=G]  (H)       {$H$};
-    % \node[state]    (C)     [above right of = A]  {$C$};
-    
-    \path[]
+	\node[accepting, initial, initial text={start}, state]  (A) {$A$};
+	% \node[accepting,state]  [right of=A]  (B)       {$B$};
+	% \node[accepting,state]  [right of=B]  (C)       {$C$};
+	\node[accepting,state]  [right of=C]  (D)       {$D$};
+	% \node[state]  [below of=A]  (E)       {$E$};
+	% \node[state]  [right of=E]  (F)       {$F$};
+	\node[accepting,state]  [right of=F]  (G)       {$G$};
+	% \node[state]  [right of=G]  (H)       {$H$};
+	% \node[state]    (C)     [above right of = A]  {$C$};
+
+	\path[]
 	% (A) edge [bend left]   node {$1+010$}  (B)
 	(A) edge [loop below]   node {$00$}  (A)
 	% (B) edge [loop above]   node {$00$}  (B)
 	(A) edge   node {$L_20+L_1$}  (G)
-    (G) edge [loop below]   node {$(00)^*$}  (G)
-    (G) edge  node {$11^*0+01$}  (D)
-    
-	(A) edge   node {$L_21$}  (D)    
+	(G) edge [loop below]   node {$(00)^*$}  (G)
+	(G) edge  node {$11^*0+01$}  (D)
+
+	(A) edge   node {$L_21$}  (D)
 	% (B) edge [bend right]   node {$01$}  (G)
-    % (G) edge [bend right]   node {$1$}  (H)
-    
-    (D) edge [loop right]   node {$1+01^*0$}  (D)
-    % (H) edge [loop right]   node {$1$}  (H)
-    
-	
-    % (B) edge [loop above]   node {$00$}  (B)
-    % (F) edge [bend left]   node {$0$}  (B)
-    % (C) edge [bend left]   node {$0$}  (G)
+	% (G) edge [bend right]   node {$1$}  (H)
+
+	(D) edge [loop right]   node {$1+01^*0$}  (D)
+	% (H) edge [loop right]   node {$1$}  (H)
+
+
+	% (B) edge [loop above]   node {$00$}  (B)
+	% (F) edge [bend left]   node {$0$}  (B)
+	% (C) edge [bend left]   node {$0$}  (G)
 	% (G) edge [bend left]   node {$0$}  (C)
 	% (G) edge [bend right]   node {$11^*0$}  (D)
-    % (D) edge [bend left]   node {$0$}  (H)
+	% (D) edge [bend left]   node {$0$}  (H)
 	% (H) edge [bend left]   node {$0$}  (D)
 	;
 
@@ -961,7 +961,48 @@ Then we can get $(00)^*(L_2+L_10)(00)^*$\\
 Then we can get $(00)^*(L_1+L_20)(00)^* $\\
 
 In all, the answer should be $(00)^* + (00)^*(1+010)(00)^* + (00)^*(L_2+L_10)(00)^*
- +(00)^*(L_21+(L_1+L_20)(00)^*(11^*0+01))(1+01^*0)^* + (00)^*(L_1+L_20)(00)^* $
+	+(00)^*(L_21+(L_1+L_20)(00)^*(11^*0+01))(1+01^*0)^* + (00)^*(L_1+L_20)(00)^* $
 
- 
+\subsection{e}
+
+\begin{tikzpicture}
+	[->,>=stealth',shorten >=1pt,auto,node distance=2cm,
+		thick,base node/.style={circle,draw,minimum size=16pt}, real node/.style={double,circle,draw,minimum size=35pt}]
+
+	\node[accepting, initial, initial text={start}, state]  (A) {$A$};
+	\node[accepting,state]  [right of=A]  (B)       {$B$};
+	\node[accepting,state]  [right of=B]  (C)       {$C$};
+	\node[accepting,state]  [right of=C]  (D)       {$D$};
+	% \node[state]  [below of=A]  (E)       {$E$};
+	% \node[state]  [right of=E]  (F)       {$F$};
+	\node[state]  [right of=F]  (F)       {$F$};
+	% \node[state]  [right of=G]  (H)       {$H$};
+	% \node[state]    (C)     [above right of = A]  {$C$};
+
+	\path[]
+	(A) edge [bend left]   node {$1$}  (B)
+	(B) edge [bend left]   node {$0$}  (A)
+	% (A) edge [loop below]   node {$00$}  (A)
+	% (B) edge [loop above]   node {$00$}  (B)
+	(B) edge [bend left]   node {$1$}  (C)
+	(C) edge [bend left]   node {$0$}  (D)
+	(D) edge [bend left]   node {$1$}  (C)
+	(C) edge [bend left]   node {$1$}  (F)
+
+	(A) edge [loop below]   node {$0$}  (A)
+	(D) edge [loop right]   node {$0$}  (D)
+
+	(F) edge [loop right]   node {$1+0$}  (F)
+	;
+
+\end{tikzpicture}\\
+\textbf{Case1}: Choose A as the accepting state. Then we get $(0+10)^* $\\
+\textbf{Case2}: Choose B as the accepting state. Then we get $(0+10)^*1 $\\
+\textbf{Case3}: Choose C as the accepting state. Then we get $(0+10)^*11(00^*1)^* $\\
+\textbf{Case4}: Choose D as the accepting state. Then we get $(0+10)^*110(0+10)^* $\\
+
+Finally, the answer should be $(0+10)^* + (0+10)^*1 + (0+10)^*11(00^*1)^* + (0+10)^*110(0+10)^* $
+
+
+
 \end{document}
