@@ -1215,4 +1215,36 @@ Intuitively, we can draw the automata as follows:\\
 
 So $B^R$ is regular, then $B$ is regular.
 
+\section{PROBLEM 6}
+\subsection{a}
+$\forall n \in N^* $, we can found string $ww$ such that $|w|>n$.
+Now let's write $w$ as $uv$ where $|u|=n$. So for any division of 
+$w$, $xy$ is a substring of $u$ since $|xy|<n$.\\
+Just make sure that we choose a string where $v$ is not a substring of $u$.\\
+ Then it's impossible to represent $v$ as $y^k$.\\
+  But $v$ is a substring of $z$, so $z$ cannot be written as $y^k$.\\
+Finally, we can get the conclusion that $xy^kz$ cannot be
+written as $ww$ for all the $k$. (Just choose $k$ such that 
+$k|y|>|z|$, if $xy^kz$ can be written as $ww$, then $z$ is a substring of $y$,
+ which is in contrast to our hypothesis.)
+
+\subsection{b}
+$\forall k \in N^* $ , choose a string $s$ where $n>k$, so $y$ contains at least one 
+$0$. In such case, $xy^0z=xz$ is obvious not contained in the set since the number
+of $0$ is less than the number of $2$.
+
+\subsection{c}
+$\forall n \in N^*$, let $i$ be a prime which is larger than $n+2$, let $j$ be $(i-1)!$.\\
+$gcd(i,j)=1$ since $i$ is a prime.\\
+Because $|xy|<n$, $y$ contains only $0$. So the number of $0$ in $xy^0z$ is less than
+$i$ since $y \ne \epsilon$. Also, $i$ is larger than $n+2$, so the number of $0$ in $xz$ is larger
+than $2$.\\
+So $gcd(the\ number\ of\ 0\ in\ xz, j) \geq 2$, which means $xy^0z$ is not in the set.
+
+\subsection{d}
+$\forall n \in N^* $, let $x_1=1^n$, $x_i=1^{n+i}, i\in [2,n]$\\
+Since $|xy|\leq n$, so $y$ only contains $1$. So the number of $1$ in $x_1$ in $xy^2z$
+range from $n+1$ to $n+n$, which must be equal to some $x_i$. Then $xy^2z$ is not
+in the set.
+
 \end{document}
