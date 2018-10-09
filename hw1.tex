@@ -1126,18 +1126,18 @@ $(L^*M^*)^*\subseteq(L+M)^*$:\\
 $\forall t:string \in (L^*M^*)^*, suppose\ that\ t \ne \epsilon.$
 Then t can be written as $u_1u_2u_3...$, where $u_i \in L^*M^*$.
 Then $u_i$ can be written as $l_1l_2....m_1m_2...$, where $l_i \in L\ or\ l_i=\epsilon$;
-$m_i \in M \ or\ m_i=\epsilon$. Then $l_i \in (L+M)$ and $m_i \in (L+M)$. 
+$m_i \in M \ or\ m_i=\epsilon$. Then $l_i \in (L+M)$ and $m_i \in (L+M)$.
 So $u_i \in (L+M)^*$, so $t \in (L+M)^*$. \\
 If $s$ or $t$ is $\epsilon$, it's obvious that both of them are in both set.
 
 Given that $L_1+L_2+L_3=L_1+(L_2+L_3)\ ,(L^*)^*=L\ and\ L_1L_2L_3=L_1(L_2L_3) $, we can get:\\
 \begin{alignat*}{2}
-	(L_1+L_2+L_3+L_4)^*&=(L_1+(L_2+L_3+L_4))^*\\
-	&=(L_1^*(L_2+L_3+L_4)^*)^*\\
-	&=(L_1^*(L_2+(L_3+L_4))^*)^*\\
-	&=(L_1^*(L_2^*(L_3+L_4)^*)^*)^*\\
-	&=(L_1^*(L_2^*((L_3^*L_4^*)^*)^*)^*)^*\\
-	&=(L_1^*L_2^*L_3^*L_4^*)^*
+	(L_1+L_2+L_3+L_4)^* & =(L_1+(L_2+L_3+L_4))^*                \\
+	                    & =(L_1^*(L_2+L_3+L_4)^*)^*             \\
+	                    & =(L_1^*(L_2+(L_3+L_4))^*)^*           \\
+	                    & =(L_1^*(L_2^*(L_3+L_4)^*)^*)^*        \\
+	                    & =(L_1^*(L_2^*((L_3^*L_4^*)^*)^*)^*)^* \\
+	                    & =(L_1^*L_2^*L_3^*L_4^*)^*
 \end{alignat*}
 
 \section{PROBLEM 4}
@@ -1173,10 +1173,46 @@ Given that $L_1+L_2+L_3=L_1+(L_2+L_3)\ ,(L^*)^*=L\ and\ L_1L_2L_3=L_1(L_2L_3) $,
 
 \subsection{d}
 \begin{alignat*}{2}
-	R_{13}^3&=R_{13}^2+R_{13}^2R_{33}^{2*}R_{33}^2\\
-	&=a(da+e)^*b+(a(da+e)^*b)(\epsilon+c(e+da)^*b)^*(\epsilon+c(e+da)^*b)\\
-	&=a(da+e)^*b(\epsilon+(c(e+da)^*b)^*)\\
-	&=a(da+e)^*b(c(e+da)^*b)^*
+	R_{13}^3 & =R_{13}^2+R_{13}^2R_{33}^{2*}R_{33}^2                                \\
+	         & =a(da+e)^*b+(a(da+e)^*b)(\epsilon+c(e+da)^*b)^*(\epsilon+c(e+da)^*b) \\
+	         & =a(da+e)^*b(\epsilon+(c(e+da)^*b)^*)                                 \\
+	         & =a(da+e)^*b(c(e+da)^*b)^*
 \end{alignat*}
+
+\section{PROBLEM 5}
+
+Define the automata of $B^R$ as follows.
+
+\begin{alignat*}{2}
+	Q      & ={Carry,Clear}                                             \\
+	q_0    & =Clear                                                     \\
+	\Sigma & = \Sigma_3                                                 \\
+	\delta & = \{\delta(Clear,p)=Clear|p\in\{(101),(010),(000)\}\}      \\
+	       & \cup \{\delta(Clear,p)=Carry|p\in\{(110)\} \}              \\
+	       & \cup \{\delta(Carry,p)=Carry|p\in\{(111),(100),(010) \} \} \\
+	       & \cup \{\delta(Carry,p)=Clear|p\in\{(001) \} \}             \\
+	F      & =Clear
+\end{alignat*}\\
+
+Intuitively, we can draw the automata as follows:\\
+
+\begin{tikzpicture}
+	[->,>=stealth',shorten >=1pt,auto,node distance=5cm,
+		thick,base node/.style={circle,draw,minimum size=16pt}, real node/.style={double,circle,draw,minimum size=35pt}]
+
+	\node[accepting, initial, initial text={start}, state]  (A) {$Clear$};
+	\node[state]  [right of=A]  (B)       {$Carry$};
+
+	\path[]
+	(A) edge [bend left]   node {$(110)$}  (B)
+	(B) edge [bend left]   node {$(001)$}  (A)
+	% (A) edge [loop below]   node {$00$}  (A)
+	(B) edge [loop above]   node {$(111)+(100)+(010) $}  (B)
+	(A) edge [loop below]   node {$(101)+(010)+(000) $}  (A)
+	;
+
+\end{tikzpicture}\\
+
+So $B^R$ is regular, then $B$ is regular.
 
 \end{document}
