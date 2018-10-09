@@ -1,7 +1,9 @@
 %!TEX program = xelatex
 
 \documentclass{ctexart}
-    \usepackage{amsmath}
+	\usepackage{amsmath}
+	\usepackage{amssymb}
+	\usepackage{changepage}
     \usepackage{pgf}
     \usepackage{tikz}
     \usetikzlibrary{arrows,automata}
@@ -1218,18 +1220,18 @@ So $B^R$ is regular, then $B$ is regular.
 \section{PROBLEM 6}
 \subsection{a}
 $\forall n \in N^* $, we can found string $ww$ such that $|w|>n$.
-Now let's write $w$ as $uv$ where $|u|=n$. So for any division of 
+Now let's write $w$ as $uv$ where $|u|=n$. So for any division of
 $w$, $xy$ is a substring of $u$ since $|xy|<n$.\\
 Just make sure that we choose a string where $v$ is not a substring of $u$.\\
- Then it's impossible to represent $v$ as $y^k$.\\
-  But $v$ is a substring of $z$, so $z$ cannot be written as $y^k$.\\
+Then it's impossible to represent $v$ as $y^k$.\\
+But $v$ is a substring of $z$, so $z$ cannot be written as $y^k$.\\
 Finally, we can get the conclusion that $xy^kz$ cannot be
-written as $ww$ for all the $k$. (Just choose $k$ such that 
+written as $ww$ for all the $k$. (Just choose $k$ such that
 $k|y|>|z|$, if $xy^kz$ can be written as $ww$, then $z$ is a substring of $y$,
- which is in contrast to our hypothesis.)
+which is in contrast to our hypothesis.)
 
 \subsection{b}
-$\forall k \in N^* $ , choose a string $s$ where $n>k$, so $y$ contains at least one 
+$\forall k \in N^* $ , choose a string $s$ where $n>k$, so $y$ contains at least one
 $0$. In such case, $xy^0z=xz$ is obvious not contained in the set since the number
 of $0$ is less than the number of $2$.
 
@@ -1248,13 +1250,76 @@ range from $n+1$ to $n+n$, which must be equal to some $x_i$. Then $xy^2z$ is no
 in the set.
 
 \section{PROBLEM 7}
-Suppose that the alphabet of $A$ and $B$ is $\Sigma$. A string $w$ that contains 
+Suppose that the alphabet of $A$ and $B$ is $\Sigma$. A string $w$ that contains
 strings in $B$ as substring can be written as $(\Sigma^*B\Sigma^*)^+$.\\
 Given that $A$ and $B$ are regular. Then $(\Sigma^*B\Sigma^*)$ is regular.\\
 Then $(\Sigma^*B\Sigma^*)^*(\Sigma^*B\Sigma^*)=(\Sigma^*B\Sigma^*)^+ $ is regular.\\
 Then $A\ avoids\ B = A - (\Sigma^*B\Sigma^*)^+$ is regular.\\
 So regular language is closed under $avoids$.
 
+\section{PROBLEM 8}
+\subsection{a}
+\textbf{$RC(RC(A)) \subseteq RC(A)$}:\\
+$\forall s:string \in RC(RC(A))\ and \ s\ne\epsilon$, it can be written as $yx$, such
+that $xy\in RC(A)$. Now we will prove that $yx\in RC(A)$.\\
+Let's induction on $y$:\\
+\textbf{Basics}: $y=\epsilon$
+\[x\epsilon\in RC(A) \]
+\[\therefore \epsilon x \in RC(A)\]
+\textbf{Induction}: $y=ay_0,xa=x_0,a\in \Sigma\ and\ y_0x_0\in RC(A) $\\
+% \[xy=xay_0 \in RC(A) \]
+Since $x_0=xa$ and $x_0y_0\in RC(A)$, $y_0x_0$ can be written  as $uwa$, such that
+$wau \in A$.
+Then $yx=ay_0x=auw$, since $w(au)\in A$, then $(au)w\in RC(A)$, that's, $yx \in RC(A)$. \\
+So we have the conclusion that $RC(RC(A)) \subseteq RC(A)$.
 
+\textbf{$RC(A) \subseteq RC(RC(A))$}:\\
+Also, $\forall s:string \in RC(A)$, $s$ can be written as $\epsilon s$.
+So that $s\epsilon = s \in RC(RC(A))$, then $RC(A) \subseteq RC(RC(A))$\\
+Finally, it's obvious that $\epsilon \in RC(RC(A))\ iff.\ \epsilon \in RC(A)$.\\
+So we get $RC(RC(A)) = RC(A)$.
+
+\subsection{b}
+Note the DFA of A as $\{Q_A, q_A, \gamma_A, F_A, \Sigma\}$.\\
+Initialize $i$ as 0.\\
+For each state $p \in Q_A$:\\
+\begin{adjustwidth}{2cm}{1cm}
+	$i++$\\
+	Mark $p$ as the $ith$ state.\\
+	\textbf{Build $TEMP_1$ as follows}:
+	\[Q_{TEMP_1}=Q_A\]
+	\[q_{TEMP_1}=p\]
+	\[\gamma_{TEMP_1}=\gamma_A\]
+	\[F_{TEMP_1}=F_A\]
+	\[\Sigma_{TEMP_1}=\Sigma\]
+	\textbf{Build $TEMP_2$ as follows}:
+	\[Q_{TEMP_2}=Q_A\]
+	\[q_{TEMP_2}=q_A\]
+	\[\gamma_{TEMP_2}=\gamma_A\]
+	\[F_{TEMP_2}=p\]
+	\[\Sigma_{TEMP_2}=\Sigma\]
+	\textbf{Build $B_i$ as follows}:
+	\[Q_{B_i}=Q_{TEMP_1}\cup Q_{TEMP_2}\]
+	\[\gamma_{B_i}=\gamma_{TEMP_1}\cup \gamma_{TEMP_2} \cup \{\gamma(q,\epsilon)=q_{TEMP_2}|q\in F_{TEMP_1}\}\]
+	\[F_{B_i}=F_{TEMP_2}\]
+	\[\Sigma_{B_i}=\Sigma\]
+\end{adjustwidth}
+
+Then build an $\epsilon-NFA$ for RC(A) as follows:\\
+\[Q=(\bigcup Q_{B_i}) \cup {q_0}\]
+\[q_{0}=q_0\]
+\[\delta=(\bigcup \gamma_{B_i}) \cup \{\delta(q_0,\epsilon)=q_{B_i}\} \]
+\[F=\bigcup F_{B_i}\]
+\[\Sigma=\Sigma\]
+
+$\forall string \in L(A)$, it can be written  as $xy$, such that 
+$\gamma_A(q_A,x)=t,\gamma_A(t,y)\in F_A$, where $t \in Q_A$. Suppose that 
+$t$ is the $kth$ state in $Q_A$, then $yx$ can be accepted for $B_k$.\\
+Similarly, for every string the $\epsilon-NFA$ accepts, it can be divided into two parts, say, $xy$, such that $\delta(q_0,x)\in F_{TEMP1}$ for some $B_i$ and 
+$\delta(q_{TEMP_2},y)=t$, where $t$ is the $ith$ state in $Q_A$, which is also the final state
+of $B_i$. So we have $\delta(q_{TEMP_2},y)=t$ and $\delta(t,x) \subseteq F_A$. So $yx \in A$.
+So such string $xy \in RC(A)$.\\
+
+Finally, we can get the conclusion that this $\epsilon-NFA$ is the NFA for regular language RC(A).
 
 \end{document}
