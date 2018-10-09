@@ -1322,4 +1322,28 @@ So such string $xy \in RC(A)$.\\
 
 Finally, we can get the conclusion that this $\epsilon-NFA$ is the NFA for regular language RC(A).
 
+
+\section{PROBLEM 9}
+Given that A and B are regular language, let's prove that the following two set are also
+regular language.\\
+Note the DFA for language A as $\{Q_A,q_A,\delta_A,F_A,\Sigma\}$, 
+note the DFA for language B as $\{Q_B,q_B,\delta_B,F_B,\Sigma\}$.
+\subsection{a}
+Build an NFA as follows:\\
+\[Q=Q_A \times Q_B \times \{A,B\}\]
+\[q_0=(q_A,q_B,B)\]
+\[\delta = \{\delta((a,b,A), x) =(\delta_A(a,x),b,B) \} \cup \{\delta((a,b,B), x) =(a,\delta_B(b,x),A) \} \]
+\[F=F_B \times F_B \times \{A\}\]
+\[\Sigma=\Sigma\]
+
+\subsection{b}
+
+Build an $\epsilon-NFA$ as follows:\\
+\[Q=Q_A \times Q_B \cup \{q_0\}\]
+\[q_0 = q_0\]
+\[\delta = \{\delta((a,b),x)=\{(\delta_A(a,x),b), (a,\delta_B(b,x))\}  \} \cup \{\delta(q_0,\epsilon)=\{q_A,q_B\}\}\]
+\[F=(F_A \times F_B) \cup \{q_0\} \]
+\[\Sigma = \Sigma \]
+
+
 \end{document}
