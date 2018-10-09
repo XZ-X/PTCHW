@@ -1247,4 +1247,14 @@ Since $|xy|\leq n$, so $y$ only contains $1$. So the number of $1$ in $x_1$ in $
 range from $n+1$ to $n+n$, which must be equal to some $x_i$. Then $xy^2z$ is not
 in the set.
 
+\section{PROBLEM 7}
+Suppose that the alphabet of $A$ and $B$ is $\Sigma$. A string $w$ that contains 
+strings in $B$ as substring can be written as $(\Sigma^*B\Sigma^*)^+$.\\
+Given that $A$ and $B$ are regular. Then $(\Sigma^*B\Sigma^*)$ is regular.\\
+Then $(\Sigma^*B\Sigma^*)^*(\Sigma^*B\Sigma^*)=(\Sigma^*B\Sigma^*)^+ $ is regular.\\
+Then $A\ avoids\ B = A - (\Sigma^*B\Sigma^*)^+$ is regular.\\
+So regular language is closed under $avoids$.
+
+
+
 \end{document}
