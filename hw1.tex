@@ -617,7 +617,7 @@ Delete C, we get:\\
 
 \end{tikzpicture}\\
 
-And the answer will be $(0+1(0+1))(0+1)^* $
+And the answer will be $(0+1(0+1))((0+1)(0+1))^* $
 
 
 \subsection{d}
@@ -1331,10 +1331,20 @@ note the DFA for language B as $\{Q_B,q_B,\delta_B,F_B,\Sigma\}$.
 \subsection{a}
 Build an NFA as follows:\\
 \[Q=Q_A \times Q_B \times \{A,B\}\]
-\[q_0=(q_A,q_B,B)\]
+\[q_0=(q_A,q_B,A)\]
 \[\delta = \{\delta((a,b,A), x) =(\delta_A(a,x),b,B) \} \cup \{\delta((a,b,B), x) =(a,\delta_B(b,x),A) \} \]
 \[F=F_B \times F_B \times \{A\}\]
 \[\Sigma=\Sigma\]
+
+For all the string in the \textbf{\textit{perfect shuffle}} set, it's obvious that the NFA
+can accept it.\\
+$\forall s:string$ that the NFA can accept, because the NFA always switches between 
+states like $(\_,\_,A)$ and $(\_,\_,B)$, $s$ must be written as $a_1b_1a_2b_2...$, such that
+after accepting $a_i$, the state should be $(\_,\_,B)$, and after accepting $b_i$, the
+state should be $(\_,\_,A)$. Since every state like $(\_,\_,A)$ would apply a transition on the 
+first part of the state, so $\delta_A(q_A,a_1a_2a_3...) \in F_A$, that's to say, $a_1a_2a_3... \in L(A)$.
+Similarly, $b_1b_2b_3... \in L(B)$
+
 
 \subsection{b}
 
@@ -1344,6 +1354,13 @@ Build an $\epsilon-NFA$ as follows:\\
 \[\delta = \{\delta((a,b),x)=\{(\delta_A(a,x),b), (a,\delta_B(b,x))\}  \} \cup \{\delta(q_0,\epsilon)=\{q_A,q_B\}\}\]
 \[F=(F_A \times F_B) \cup \{q_0\} \]
 \[\Sigma = \Sigma \]
+For all the string in the \textbf{\textit{shuffle}} set, it's obvious that the NFA
+can accept it.\\
+$\forall s:string$ that the NFA can accept, after accepting each character, the NFA
+would transit either state A or state B but not both. So there must
+ be one sub-sequence which can be accept by A and the left sub-sequence can be 
+ accepted by B.
+
 
 
 \end{document}
