@@ -1,0 +1,149 @@
+\documentclass[a4paper,UTF8]{article}
+\usepackage[margin=1.25in]{geometry}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{multirow}
+\usepackage{pdfpages}
+\usepackage{fontspec}                   % requires XeLaTeX
+
+\theoremstyle{definition}
+\newtheorem*{solution}{Solution}
+\newtheorem*{prove}{Proof}
+
+\setmainfont                    [Ligatures=TeX]{Times New Roman}
+\parindent=0pt
+\topskip=-200pt
+
+\begin{document}
+\title{PTC (Fall 2018) -- Assignment 2}
+\author{
+    \begin{minipage}[b]{0.3\linewidth}
+      \begin{flushright}
+        Name: \rule{3cm}{0.4pt}\\
+        \vbox to 1mm{}
+        Grade: \rule{3cm}{0.4pt}
+      \end{flushright}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[b]{0.3\linewidth}
+      \begin{flushright}
+        Dept: \rule{3cm}{0.4pt}\\
+        \vbox to 1mm{}
+        ID: \rule{3cm}{0.4pt}
+      \end{flushright}
+    \end{minipage}
+}
+\date{\color{red} \Large Due: Nov. 22, 2018}
+\maketitle
+
+\section*{Problem 1}
+Give context free grammars that generate the following languages, and give a brief description of the functionality of each variable in your grammars (in natural language).
+\begin{enumerate}
+  \item[a.] \{$w\in \{a,b\}^*\ |\mbox{ the number of $a$'s in $w$ is more than the number of $b$'s in $w$}$\}
+  \item[b.] \{$a^ib^{2j}c^{j}d^{k}\ |\ i,j,k\geq 1, k \geq 2i$\}
+  \item[c.] \{$w\in \{a,b\}^*\ |\ abb\mbox{ and }aab\mbox{ are substrings of }w$\}
+  \item[d.] \{$a^{i}b^{j}c^{k}\ |\ i,j,k\geq 0 \wedge i + j > k$\} 
+\end{enumerate}
+\begin{solution}
+\end{solution}
+\newpage
+
+\section*{Problem 2}
+Consider the following CFG $G$:
+\[
+\begin{aligned}
+  S &\rightarrow SS\ |\ T \\
+  T &\rightarrow aTb\ |\ ab
+\end{aligned}
+\]
+Describe $L(G)$ and show that $G$ is ambiguous. Give an unambiguous grammar $H$
+where $L(H) = L(G)$ and sketch a proof that $H$ is unambiguous.
+\begin{solution}
+\end{solution}
+\newpage
+
+\section*{Problem 3}
+Let $G = (V, T, P, S)$ be a context free grammar such that $V = \{A, B\}$, $T = \{a, b\}$, $S = B$ and $P$ is
+\[
+\begin{aligned}
+  B &\rightarrow aAA \\
+  A &\rightarrow aB \ |\ bB\ |\ a
+\end{aligned}
+\]
+\begin{enumerate}
+  \item[a.] Give parse trees, leftmost and rightmost derivations for the following strings.
+  \begin{itemize}
+    \item[1.] $aabaaa$
+    \item[2.] $abaaabaaa$
+  \end{itemize}
+  \item[b.] Convert $G$ to a PDA that accepts the same language by empty stack.
+\end{enumerate}
+\begin{solution}
+\end{solution}
+\newpage
+
+\section*{Problem 4}
+Begin with the grammar:
+\[
+  \begin{aligned}
+    S &\rightarrow aAa\ |\ bBb\ |\ \epsilon \\
+    A &\rightarrow C \ |\ a \\
+    B &\rightarrow C \ |\ b \\
+    C &\rightarrow CDE\ |\ \epsilon\\
+    D &\rightarrow A\ |\ B\ |\ ab
+  \end{aligned}
+\]
+\begin{enumerate}
+  \item[a.] Eliminate $\epsilon$-productions.
+  \item[b.] Eliminate any unit productions in the resulting grammar of (a.).
+  \item[c.] Eliminate any useless symbols in the resulting grammar of (b.).
+  \item[d.] Put the resulting grammar of (c.) into Chomsky normal form.
+\end{enumerate}
+\begin{solution}
+\end{solution}
+\newpage
+
+\section*{Problem 5}
+Given grammar $G$:
+\[
+\begin{aligned}
+  S & \rightarrow AB\ |\ BC \\
+  A & \rightarrow BA\ |\ a \\
+  B & \rightarrow CC\ |\ b \\
+  C & \rightarrow AB\ |\ a
+\end{aligned}
+\]
+Please use CYK algorithm to decide whether string $ababa$ belongs to $L(G)$.
+\begin{prove}
+\end{prove}
+\newpage
+
+\section*{Problem 6}
+Use the CFL pumping lemma to show each of these languages are not context free.
+\begin{enumerate}
+  \item[a.] $\{a^ib^jc^k\ |\ i < j < k\}$
+  \item[b.] $\{0^p\ |\ p\mbox{ is a prime}\}$
+  \item[c.] $\{ww^Rw\ |\ w \in \{0,1\}^* \}$
+\end{enumerate}
+\begin{prove}
+\end{prove}
+\newpage
+
+\section*{Problem 7}
+Show that the CFL is closed under the following operations:
+\begin{enumerate}
+  \item[a.] $init(L)=\{w\ |\mbox{ for some }x, wx \in L\}$. (\textbf{Hint}: Start with a CNF grammar for the language $L$)
+  \item[b.] $cycle(L)=\{xy\ |\ yx \in L\}$ (\textbf{Hint}: Try a PDA-based construction)
+\end{enumerate}
+\begin{prove}
+\end{prove}
+\newpage
+
+\section*{Problem 8}
+If $L$ is regular, it satisfies pumping lemma for sure! But if a language satisfies pumping lemma, is it regular? Prove or disprove it.
+\begin{prove}
+\end{prove}
+\end{document}
