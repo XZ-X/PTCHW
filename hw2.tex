@@ -368,12 +368,43 @@ Show that the CFL is closed under the following operations:
 	\item[a.] $init(L)=\{w\ |\mbox{ for some }x, wx \in L\}$. (\textbf{Hint}: Start with a CNF grammar for the language $L$)
 	\item[b.] $cycle(L)=\{xy\ |\ yx \in L\}$ (\textbf{Hint}: Try a PDA-based construction)
 \end{enumerate}
-\begin{prove}
-\end{prove}
-\newpage
+
+\subsection*{a}
+
+For all the production: 
+
+If $\pro{P}{\alpha}$, convert it to $\pro{P'}{\alpha|\epsilon}$;\\
+if $\pro{P}{AB}$, convert it to $\pro{P'}{AB'|A'}$
+
+Proof:
+Induction on the steps of derivation. 
+
+Basis: $\pro{P}{\alpha}$, the $P'$ is all the prefix of $\alpha$($\alpha$ and $\epsilon$) .
+
+Induction:
+	For all derivation within n step, the new grammar will generate all the prefix
+	of the strings that can be derived within n steps. 
+
+	For the derivation of step n+1, we first make one step.\\
+	If the first step is $\pro{P'}{AB'}$, then $B'$ contains all the prefix of B since it
+	can be derived within n steps. Then we can get that $P'$ contains all the 
+	prefix of P.\\
+	If the first step is $\pro{P'}{A'}$, then $A'$ contains all the prefix of 
+	$A$ since it can be derived within n steps. Then we can get that $P'$ contains all
+	the prefix of P.
+
+	Now we have proved that all the strings the new grammar generate are the prefix of strings 
+	in the origin language.
+
+\subsection*{b}
+
 
 \section*{Problem 8}
 If $L$ is regular, it satisfies pumping lemma for sure! But if a language satisfies pumping lemma, is it regular? Prove or disprove it.
-\begin{prove}
-\end{prove}
+
+$(abc)^+0^n1^n$, choose n=4, and let $x=\epsilon,\ y=abc$. However, this language is obviously not 
+a regular language.
+
+
+
 \end{document}
