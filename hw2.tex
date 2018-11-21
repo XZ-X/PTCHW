@@ -273,10 +273,10 @@ The nullable variables are $C,S,A,B,D$, then we can get:
 
 \begin{alignat*}{2}
   \apro{S}{aAa|bBb|aa|bb}\\
-  \apro{A}{CDE|CE|DE|E|a}\\
-  \apro{B}{CDE|CE|DE|E|b}\\
-  \apro{C}{CDE|CE|DE|E}\\
-  \apro{D}{ab|CDE|CE|DE|E|a|CDE|CE|DE|E|b}
+  \apro{A}{CDE|CE|DE|a}\\
+  \apro{B}{CDE|CE|DE|b}\\
+  \apro{C}{CDE|CE|DE}\\
+  \apro{D}{ab|a|CDE|CE|DE|b}
 \end{alignat*}
 
 \subsection*{c}
@@ -321,7 +321,7 @@ Please use CYK algorithm to decide whether string $ababa$ belongs to $L(G)$.
 \cyk{2}{4}{B}
 \cyk{0}{3}{B}
 \cyk{1}{4}{B}
-\cyk{0}{4}{S}
+\cyk{0}{4}{S,A}
 Since $ababa[0:4]$ contains $S$, this string belongs to $L(G)$
 
 \section*{Problem 6}
@@ -334,7 +334,7 @@ Use the CFL pumping lemma to show each of these languages are not context free.
 
 \subsection*{a}
 
-$\forall n$, choose $a^nb^(n+1)c^(n+2)$. Since $|vwx|\leq n$, so 
+$\forall n$, choose $a^nb^{n+1}c^{n+2}$. Since $|vwx|\leq n$, so 
 $|vx|$ contains at least one of character $a$, $b$ and $c$ but not all.\\
 If $vx$ doesn't contain $c$, we repeat $vx$ for $2n$ times. In such case, the number
 of a or b is larger than the number of c.\\
@@ -397,6 +397,8 @@ Induction:
 	in the origin language.
 
 \subsection*{b}
+
+不会做…… 给助教学长拜个早年
 
 
 \section*{Problem 8}
