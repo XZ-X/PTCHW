@@ -377,9 +377,64 @@ If a pushdown automaton has $k$ stacks, we call it $k$−PDA. Clearly, 0−PDA i
   \item[1.] What is the difference between the express ability of 2-PDA and 1-PDA. Please clarify your argument. Prove the (un)equivalence.
   \item[2.] How about 3-PDA and 2-PDA.
 \end{enumerate}
-\begin{solution}
-\end{solution}
-\newpage
+
+\subsection*{1}
+It's obvious that 2-PDA and 1-PDA are not equivalence. Since 2-PDA can accept languages like $a^nb^nc^n$
+while 1-PDA cannot. Also, it's trivial to show that 2-PDA can express any language 1-PDA can accept.
+So 2-PDA is more powerful than 1-PDA.
+
+\subsection*{2}
+3-PDA and 2-PDA are equivalence.
+I'll show that both 3-PDA and 2-PDA are equivalence to TM.
+
+Firstly, I'll prove that every language accepted by 2-PDA can be accepted by TM.
+
+We choose a 2-type TM. The first type contains the input, and the second type is a simulation for the stack.
+For any transition $\delta'(q,a,X)=(p,Y)$, supposed that the length of 
+Y is k, we will get these transitions for the TM:
+
+If Y=$\epsilon$, for the first type: $\trans{q,a}{p,a,R}$; 
+for the second type: $\trans{q,X}{p,B,L}$
+
+If Y$\ne \epsilon$, for the first type:
+
+$\trans{q,a}{p,a,R}$
+for the second type: $\trans{q,X}{q_{k-1},Y[k-1],R}$
+
+Also, for each integer i from 0 to k-2, exists $\trans{q_{i+1},B}{q_{i},Y[i],R}$
+
+finally, add $\trans{q_0,B}{p,B,L}$
+
+Similarly, we can simulate 3 stack using a 3-type TM.
+
+Now we have shown that any language accepted by 2-PDA and 3-PDA can be accepted by a TM.
+
+Then we'll prove that 2-PDA can simulate a TM.
+
+At the beginning,
+we just push all the input into stack A, and pop the character from stack A and push this character into stack B
+one by one, until we meet the stack-bottom marker of A. Then the stack B holds characters at the right 
+of the TM head, the stack A holds characters at the left of the TM head.
+
+For each transition in TM noted as $\delta'(p,X)=(q,Y,D)$: 
+
+If D is L, add $\trans{p,\epsilon, A, X}{q,\epsilon,AY}$, where A is any symbol at the top of A except 
+for the stack-bottom marker of A, noted as $\perp_A$.
+
+When the top of A is $\perp_A$, add $\trans{p,\epsilon,\perp_A, X}{q,\perp_A,BY}$
+
+If D is R, add $\trans{p,\epsilon, A, X}{q,YA,\epsilon}$.
+
+In addition, if X is B(the blank symbol in M), also add $\trans{p,\epsilon, A, \perp_B}{q,YA,\perp_B}$ (D=R)
+or $\trans{p,\epsilon,A, \perp_B}{q,\epsilon,AY\perp_B}$(D=L \& A $\neq$ $\perp_A$) and 
+$\trans{p,\epsilon,\perp_A, \perp_B}{q,\perp_A,BY\perp_B}$(D=L \& A = $\perp_A$); 
+
+Finally, change all the occurrences like $B\perp_B$, $B\perp_A$ to $\perp_B$, $\perp_A$ respectively.
+
+Now we have shown that 2-PDA can simulate a TM. Since 3-PDA can simulate 2-PDA by using only 2 stack,
+3-PDA can simulate a TM. Then both 2-PDA and 3-PDA are equivalent to TM, which means they are equivalent.
+
+
 
 \section*{Problem 6}
 Suppose we have an encoding of context-free grammars using some finite alphabet. Consider the following two languages:
@@ -392,9 +447,37 @@ Answer the following questions:
   \item[a.] Show that $L_1$ is polynomial-time reducible to $L_2$.
   \item[b.] Show that $L_2$ is polynomial-time reducible to $L_1$.
 \end{enumerate}
-\begin{prove}
-\end{prove}
-\newpage
+\subsection*{a}
+Just copy the language G twice, but mark A as the start symbol of $G_1$,
+mark B as the start symbol of $G_2$. The copy action will consume just O(n) time,
+and the modification will consume constant time. So the reduction is polynomial-time.
+Also, we should prove that when $L_2$ accepts, $L_1$ accepts and when $L_2$ rejects, $L_1$ rejects.
+
+If $L_2$ accepts, that means the terminal strings derived from the start symbol of $G_1$ and $G_2$
+are equivalent. Since $G_1$ and $G_2$ share the same productions in G, then they will surely derivate
+the same terminal strings when they're two variables in G.
+
+If $L_2$ rejects, we can assume that there is a string w, which is in $L(G_1)$ but is not in $L(G_2)$,
+then variable A in G can derivate the terminal string w but variable B cannot. Then (G,A,B) should be rejected.
+
+\subsection*{b}
+Suppose that the start symbol of $G_1$ and $G_2$ are $S_1$, $S_2$ respectively.
+Then construct G as $S\rightarrow S_1|S_2$. Before we copy productions from $G_1$ and $G_2$, we 
+just rename variables in $G_1$ such that variables in $G_1$ are disjoint from variables in $G_2$.
+Then we get an instance of $L_1$ which will be $(G,S_1,S_2)$. It's obvious that the reduction takes
+O(n) time. Now we're going to prove that when $L_1$ accepts, so does $L_2$,
+ and when $L_1$ rejects, so does $L_1$.
+
+
+If $L_1$ accepts, that means $S_1$ and $S_2$ can derivate the exact same terminal string set. 
+Also, notice that all the production they can use are belongs to $G_1$ and $G_2$ respectively since
+we have guarantee that the variables in $G_1$ are disjoint with variables in $G_2$. So for each terminal
+string they can derivate in G, they can also derivate it in $G_1$ or $G_2$. So we can 
+conclude that $L(G_1)=L(G_2)$.
+
+If $L_1$ rejects, we can assume that there is a terminal string w that belongs to 
+the terminal strings of $S_1$ but not belongs to the terminal strings of $S_2$. It's obvious that
+$S_1$ can derivate w in $G_1$. So $L(G_1) \neq L(G_2)$.
 
 \section*{Problem 7}
 As classes of languages, $\mathcal{P}$ and $\mathcal{NP}$ each have certain closure properties. Prove or disprove that $\mathcal{P}$ and $\mathcal{NP}$ are closed under each of the following operations:
