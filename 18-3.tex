@@ -341,7 +341,7 @@ Suppose that the ID of M is $q_0w$ at the beginning.
 \subsubsection*{case 1}
 If there exists
 $\trans{q_0,c}{q',Y,L}$, where c is the first character of w, q' is an arbitrary
-state and Y is an arbitrary type character, then we construct a graph(N,E,P) as follows.
+state and Y is an arbitrary tape character, then we construct a graph(N,E,P) as follows.
 Forall $\trans{p,B}{q,Y,D}$, add a node pBq in N. If D is R, also add this node in P.
 Specially, we add a node $q_0Xq'$.  For each pair of nodes, say, $p_1Xq_1$, $p_2Yq_2$, 
 if $q_1$=$p_2$ and $p_2$ is not a final state, add an edge ($q_1$, $p_2$). \\
@@ -351,7 +351,7 @@ we reject this (M,w).
 
 \subsubsection*{case2}
 If there exists $\trans{q_0,c}{q',Y,R}$, where c is the first character of w, q' is an arbitrary
-state and Y is an arbitrary type character, then M cannot move any step to left.
+state and Y is an arbitrary tape character, then M cannot move any step to left.
 Suppose the length of w is n. Then we simulate M for n steps.  
 If M moves to left in any step, we reject this (M,w).
 If M halts within n steps not moving to left, then we accept.
@@ -389,23 +389,23 @@ I'll show that both 3-PDA and 2-PDA are equivalence to TM.
 
 Firstly, I'll prove that every language accepted by 2-PDA can be accepted by TM.
 
-We choose a 2-type TM. The first type contains the input, and the second type is a simulation for the stack.
+We choose a 2-tape TM. The first tape contains the input, and the second tape is a simulation for the stack.
 For any transition $\delta'(q,a,X)=(p,Y)$, supposed that the length of 
 Y is k, we will get these transitions for the TM:
 
-If Y=$\epsilon$, for the first type: $\trans{q,a}{p,a,R}$; 
-for the second type: $\trans{q,X}{p,B,L}$
+If Y=$\epsilon$, for the first tape: $\trans{q,a}{p,a,R}$; 
+for the second tape: $\trans{q,X}{p,B,L}$
 
-If Y$\ne \epsilon$, for the first type:
+If Y$\ne \epsilon$, for the first tape:
 
 $\trans{q,a}{p,a,R}$
-for the second type: $\trans{q,X}{q_{k-1},Y[k-1],R}$
+for the second tape: $\trans{q,X}{q_{k-1},Y[k-1],R}$
 
 Also, for each integer i from 0 to k-2, exists $\trans{q_{i+1},B}{q_{i},Y[i],R}$
 
 finally, add $\trans{q_0,B}{p,B,L}$
 
-Similarly, we can simulate 3 stack using a 3-type TM.
+Similarly, we can simulate 3 stack using a 3-tape TM.
 
 Now we have shown that any language accepted by 2-PDA and 3-PDA can be accepted by a TM.
 
@@ -480,12 +480,92 @@ the terminal strings of $S_1$ but not belongs to the terminal strings of $S_2$. 
 $S_1$ can derivate w in $G_1$. So $L(G_1) \neq L(G_2)$.
 
 \section*{Problem 7}
-As classes of languages, $\mathcal{P}$ and $\mathcal{NP}$ each have certain closure properties. Prove or disprove that $\mathcal{P}$ and $\mathcal{NP}$ are closed under each of the following operations:
+As classes of languages, $\mathcal{P}$ and $\mathcal{NP}$ each have certain closure properties.
+ Prove or disprove that $\mathcal{P}$ and $\mathcal{NP}$ are closed under each of the following operations:
 \begin{enumerate}
   \item[a.] Union.
   \item[b.] Concatenation.
   \item[c.] Complementation.
 \end{enumerate}
-\begin{prove}
-\end{prove}
+\subsection*{a}
+Both P and NP are closed under union.
+
+P: For any P languages $P_1$ and $P_2$, noted the related TM as $M_1$, $M_2$. Construct 
+a two-tape TM M' as follows:
+
+Suppose that we have a subroutine S that will copy the input from tape 1 to tape 2 in O(n) time.
+The accepting states, alphabet, tape symbols of M' are the union of
+ their counterparts in $M_1$, $M_2$ and S.
+
+% The states of M will be the union of states in $M_1$, $M_2$, S and $q_s$. $q_s$ will initialize the 
+% running environment for $M_2$.
+
+The start state is the start state of S
+
+1. For each transition in $M_1$, noted as $\trans{p,X}{q,Y,D}$,
+ add $\trans{p,X,*}{q,Y,*,D,S}$, where * is any tape symbol on tape 2.
+Similarly, for each transition in $M_2$, noted as $\trans{p,X}{q,Y,D}$,
+ add $\trans{p,*, X}{q,*,Y,S, D}$, where * is any tape symbol on tape 1.
+
+2. The transitions will also include transitions that will copy the input to tape 2.
+
+3. Also, for every  
+non-accepting state p and every tape symbols c, if $(p,c)$ is not defined in the 
+transitions of $M_1$, add $\trans{p,c,*}{q_2,c,*,R,S}$, where $q_2$ is the start state of $M_2$.
+
+Since $M_1$ and $M_2$ will halt within polynomial time, the maximum time M' consumes will in 
+polynomial times.
+
+NP: Similarly, if $M_1$ and $M_2$ are NTMs halt in polynomial time,
+ then M' will be a NTM. The maximum time M' consumes will still in 
+polynomial times.
+
+\subsection*{b}
+P and NP are closed under concatenation. 
+
+We'll reuse the notations of problem a.
+P: 
+
+The input can be divided as two substrings with length [0,n],[2,n-2].....[n,0]
+
+Construct a TM with 2n tapes. Group the tapes into n group.
+For each group, there will be a division of the input string with the 
+first part on one tape and the second one for another.
+
+The division will takes O($n^2$) time since we will copy the string of length n into n groups.
+
+Then for each group, we use $M_1$ and $M_2$ to decide them respectively. If both $M_1$ and $M_2$ are 
+accepted, then we can say $M_1$ and $M_2$ accepts this group. If any group is accepted, then M' accepts 
+the input, otherwise rejects.
+
+The sum of the decide time for one group should be polynomial. For n groups, it will still be polynomial.
+
+So M' can decide the input in polynomial time.
+
+NP: The NTM M' will choose one division, 
+then we use $M_1$ and $M_2$ to decide these two parts respectively. 
+If both $M_1$ and $M_2$ are 
+accepted, then NTM accepts this input.
+
+If under no circumstances M' can accept this input, then M' will reject it.
+The decision will be made in polynomial time.
+
+
+\subsection*{c}
+P and NP are closed under complementation. 
+
+P:
+First, copy the input to another tape. (O(n))
+
+Second, see whether $M_1$ accepts this input. If not, M' rejects this input. (polynomial)
+
+(If $M_1$ accepts), third, see whether $M_2$ accepts this input,
+if so, the M' rejects this input, otherwise accepts. (polynomial)
+
+So the total time would be polynomial.
+
+NP:
+The time analysis for NTM is similar to that for TM.
+
+
 \end{document} 
