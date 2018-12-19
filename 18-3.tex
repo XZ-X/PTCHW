@@ -283,10 +283,21 @@ $\trans{p_{markZ},<*,B>}{q_0,<z,B>,R}$
 
 
 \section*{Problem 3}
-A \textit{useless state} in a Turing machine is one that is never entered on any input string. Consider the problem of determining whether a state in a Turing machine is useless. Formulate this problem as a language and show it is decidable or undecidable. (\textbf{Hint}: consider the language $E_{\mathrm{TM}}$)
-\begin{solution}
-\end{solution}
-\newpage
+A \textit{useless state} in a Turing machine is one that is never 
+entered on any input string. Consider the problem of determining whether a state in a 
+Turing machine is useless. Formulate this problem as a language and show it is 
+decidable or undecidable. (\textbf{Hint}: consider the language $E_{\mathrm{TM}}$)
+\\
+
+Construct a TM M' as follows.
+Given any input s, if s can be interpreted as $<M,w>$, where M is a TM, w is a string,
+then we input it to the algorithm for ATM. If ATM accepts $<M,w>$, M' will enter a state $QF$, where
+$QF \notin$ the state set of ATM.
+
+ It's obvious that the TM M' will enter the state $QF$ if and only if the 
+ATM accepts $<M,w>$. So if we can decide whether or not $QF$ is a useless state, then we can decide ATM. Since
+ATM is undecidable, so useless state is undecidable.
+
 
 \section*{Problem 4}
 Show that the following questions are decidable:
@@ -295,8 +306,69 @@ Show that the following questions are decidable:
   \item[b.] The set $L$ of codes for TM’s that never make a move left on any input.
   \item[c.] The set $L$ of pairs $(M,w)$ such that TM $M$, started with input $w$, never scans any tape cell more than once.
 \end{enumerate}
-\begin{prove}
-\end{prove}
+
+\subsection*{a}
+Let's construct a directed graph(N,E,P), where N is the set of all the nodes, 
+E is the set of edges and P is a set for some special nodes. For each transition
+$\trans{p,X}{q,Y,D}$, if X is B, we add a node pXq. Also, if Y is not B, then 
+we also add this node to the set P. Specially, we add a node $p_0Bp_0$, where $p_0$ is 
+the start state of M. 
+For each pair of nodes, say, $p_1Bq_1$, $p_2Bq_2$, 
+if $q_1$=$p_2$ and $p_2$ is not a final state , add an edge ($q_1$, $p_2$). \\
+
+Then we traverse the sub-graph which can be access from $p_0Bp_0$. When we meet any node in P, then 
+we accept this M. Otherwise, if we never meet any node in P after visiting all the reachable 
+node, we reject this M.
+
+
+\subsection*{b}
+Let's construct a directed graph(N,E,P), where N is the set of all the nodes, 
+E is the set of edges and P is a set for some special nodes. Specially, we add a node $p_0Bp_0$,
+ where $p_0$ is 
+the start state of M.  For each transition
+$\trans{p,X}{q,Y,D}$, we add a node pXq. Also, if D is L, then 
+we also add this node to the set P. For each pair of nodes, say, $p_1Xq_1$, $p_2Yq_2$, 
+if $q_1$=$p_2$ and $p_2$ is not a final state, add an edge ($q_1$, $p_2$). \\
+
+Then we traverse the sub-graph which can be access from $p_0Bp_0$. When we meet any node in P, then 
+we reject this M. Otherwise, if we never meet any node in P after visiting all the reachable 
+node, we accept this M.
+
+
+\subsection*{c}
+Suppose that the ID of M is $q_0w$ at the beginning.
+
+\subsubsection*{case 1}
+If there exists
+$\trans{q_0,c}{q',Y,L}$, where c is the first character of w, q' is an arbitrary
+state and Y is an arbitrary type character, then we construct a graph(N,E,P) as follows.
+Forall $\trans{p,B}{q,Y,D}$, add a node pBq in N. If D is R, also add this node in P.
+Specially, we add a node $q_0Xq'$.  For each pair of nodes, say, $p_1Xq_1$, $p_2Yq_2$, 
+if $q_1$=$p_2$ and $p_2$ is not a final state, add an edge ($q_1$, $p_2$). \\
+
+Then we traverse the sub-graph which can be access from $q_0Bq'$. If we meet any node in P,
+we reject this (M,w).
+
+\subsubsection*{case2}
+If there exists $\trans{q_0,c}{q',Y,R}$, where c is the first character of w, q' is an arbitrary
+state and Y is an arbitrary type character, then M cannot move any step to left.
+Suppose the length of w is n. Then we simulate M for n steps.  
+If M moves to left in any step, we reject this (M,w).
+If M halts within n steps not moving to left, then we accept.
+
+\subsubsection*{case3}
+If M doesn't halt within n steps, the head must point to the B at the right of w,
+ suppose the state now is $q_x$.
+
+We construct a graph(N,E,P) as follows.
+Forall $\trans{p,B}{q,Y,D}$, add a node pBq in N. If D is L, also add this node in P.
+Specially, we add a node $q_xBq_x$.  For each pair of nodes, say, $p_1Xq_1$, $p_2Yq_2$, 
+if $q_1$=$p_2$ and $p_2$ is not a final state, add an edge ($q_1$, $p_2$). \\
+
+
+Then we traverse the sub-graph which can be access from $q_xBq_x$. If we meet any node in P,
+we reject this (M,w). Otherwise, we accept this (M,w).
+
 \newpage
 
 \section*{Problem 5}
