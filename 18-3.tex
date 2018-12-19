@@ -129,7 +129,158 @@ The state $q_{call}$ will call the $M_1$
 $\trans{q_call,1}{p_0,1,R}$
 
 When the M returns from $M_1$, state $q_L$ will move the head
-to the blank left to .
+to the blank at the left end of the input and then enters $q_1$
+
+$\trans{q_L,1}{q_L,1,L}$\\
+$\trans{q_L,\times}{q_L,\times,L}$\\
+$\trans{q_L,B}{q_1,B,R}$
+
+$q_1$ acts just like $q_0$ except that when it finds no 1 before 
+$\times$, it will switch to $q_e$
+
+$\trans{q_1,1}{q_R,B,R}$\\
+$\trans{q_1,\times}{q_e,\times,R}$\\
+
+$q_e$ and $q_{check}$ will check whether the RHS of the = is blank.
+
+$\trans{q_e,1}{q_e,1,R}$\\
+$\trans{q_e,=}{q_{check},=,R}$\\
+$\trans{q_{check},B}{q_f,B,L}$
+ 
+
+\subsection*{b}
+
+We will use multi-track TMs in this problem. 
+
+First, define a TM $M_1$ which will compare whether two strings
+are equal to each other. The beginning of the second string
+will be marked as <x,c>, the beginning before the first 
+string is marked as <z,B>, where c $\in$ \set{a,b}. Other 
+related cells on the second track is initialized to *.
+
+\[M_1(
+  \set{q_0,q_c,q_a,q_b,q_{da},q_{db},q_L,q_f,q_e},
+  \set{a,b},
+  \set{a,b,x,*,z,B},
+  \delta,
+  q_0,
+  B,
+  \set{q_e}
+)\]
+$q_0$ will move the head to the end of the first string.
+$\trans{q_0,<*,X>}{q_0,<*,X>,R}$, where $X \in \set{a,b}$
+
+$\trans{q_0,<x,X>}{q_c,<x,X>,L}$, where $X \in \set{a,b}$
+
+$q_c$ will remove a character from the tail of the first
+string and remember this string in its state.
+$\trans{q_c,<*,a>}{q_a,<*,B>,R}$
+
+$\trans{q_c,<*,b>}{q_b,<*,B>,R}$
+
+$\trans{q_a,<*,X>}{q_a,<*,X>,R}$
+
+$\trans{q_b,<*,X>}{q_b,<*,X>,R}$
+
+$q_a$ and $q_b$ will move the head to the end of the second 
+string and remember to delete a or b respectively.
+
+$\trans{q_a,<*,B>}{q_{da},<*,B>,L}$
+
+$\trans{q_b,<*,B>}{q_{db},<*,B>,B}$
+
+$q_{da}$ and $q_{db}$ will delete one a or one b respectively.
+
+$\trans{q_{da},<*,a>}{q_L,<*,B>,L}$
+
+$\trans{q_{da},<x,a>}{q_L,<x,B>,L}$
+
+$\trans{q_{db},<*,b>}{q_L,<*,B>,L}$
+
+$\trans{q_{db},<x,b>}{q_L,<x,B>,L}$
+
+$q_L$ will move the head to the ending blanks of the 
+first string.
+
+$\trans{q_L,<*,X>}{q_L,<*,X>,L}$, where $X \in \set{a,b}$
+
+$\trans{q_L,<x,X>}{q_c,<x,X>,L}$, where $X \in \set{a,b}$
+
+$q_c$ will find the next char to remove,
+when it meets z on the second track, the TM goes
+to a new state $q_f$
+
+$\trans{q_c,<*,B>}{q_c,<*,B>,L}$
+
+$\trans{q_c,<z,B>}{q_f,<z,B>,R}$
+
+$q_f$ will check whether the second string 
+has been reduced to blanks, if so, it will 
+change to the accepting state$q_e$.
+
+$\trans{q_f,<*,B>}{q_f,<*,B>,R}$
+
+$\trans{q_f,<x,B>}{q_e,<x,B>,R}$
+
+Then we define the TM M for language $L_2$.
+
+$M(
+  M_1.states \cup \set{p_0,p_1,p_{odd},p_{even},p_{back},p_{fwd},p_R,p_{last},p_{next},p_{markZ}},
+  \set{a,b}, 
+  \set{a,b,x,*,t,z,B},\\
+  M_1.\delta \cup \delta,
+  p_0,
+  B,
+  \set{q_e}
+)$
+
+M will accept the empty strings.
+
+$\trans{p_0,<B,B>}{q_e,<B,B>,R}$
+
+Firstly, marked the first blank at the left of the input as x.
+
+$\trans{p_0,<B,X>}{p_1,<B,X>,L}$
+
+$\trans{p_1,<B,B>}{p_{odd},<x,B>,R}$
+
+If this is the odd indexed(start from 1) char from the input, then the state will change to 
+even and vice versa.
+
+$\trans{p_{odd},<B,X>}{p_{even},<*,X>,R}$, where $X \in \set{a,b}$
+
+$\trans{p_{even},<B,X>}{p_{back},<t,X>,L}$, where $X \in \set{a,b}$
+
+When M makes every two steps right, it will move x forward for one step. Then when the 
+first blank at right is met, the x will be moved to the end of the first string.
+
+$\trans{p_{back},<*,X>}{p_{back},<*,X>,L}$, where $X \in \set{a,b}$
+
+$\trans{p_{back},<x,X>}{p_{fwd},<*,X>,R}$, where $X \in \set{a,b,B}$
+
+$\trans{p_{fwd},<*,X>}{p_R,<x,X>,R}$, where $X \in \set{a,b}$
+
+$\trans{p_R,<*,X>}{p_R,<*,X>,R}$, where $X \in \set{a,b}$
+
+$\trans{p_R,<t,X>}{p_{odd},<*,X>,R}$, where $X \in \set{a,b}$
+
+Then we move x forward for one more step.
+
+$\trans{p_{odd},<B,B>}{p_{last},<*,B>,R}$
+
+$\trans{p_{last},<*,X>}{p_{last},<*,X>,L}$, where $X \in \set{a,b}$
+
+$\trans{p_{last},<x,X>}{p_{next},<*,X>,R}$, where $X \in \set{a,b}$
+
+$\trans{p_{next},<*,X>}{p_{markZ},<x,X>,L}$, where $X \in \set{a,b}$
+
+$\trans{p_{markZ},<*,X>}{p_{markZ},<*,X>,L}$, where $X \in \set{a,b}$
+
+Finally, we marked the blank at the left of the input as z, and call $M_1$.
+
+$\trans{p_{markZ},<*,B>}{q_0,<z,B>,R}$
+
+
 
 \section*{Problem 3}
 A \textit{useless state} in a Turing machine is one that is never entered on any input string. Consider the problem of determining whether a state in a Turing machine is useless. Formulate this problem as a language and show it is decidable or undecidable. (\textbf{Hint}: consider the language $E_{\mathrm{TM}}$)
