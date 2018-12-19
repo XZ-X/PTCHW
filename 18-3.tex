@@ -555,14 +555,11 @@ The decision will be made in polynomial time.
 P and NP are closed under complementation. 
 
 P:
-First, copy the input to another tape. (O(n))
+Construct a TM M' as follows:
 
-Second, see whether $M_1$ accepts this input. If not, M' rejects this input. (polynomial)
+Let the original TM M decide the input, if M accepts, M' reject. If M' reject, M accepts.
 
-(If $M_1$ accepts), third, see whether $M_2$ accepts this input,
-if so, the M' rejects this input, otherwise accepts. (polynomial)
-
-So the total time would be polynomial.
+Since the decide time are polynomial, so the complementation still decides in polynomial time.
 
 NP:
 The time analysis for NTM is similar to that for TM.
