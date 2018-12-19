@@ -1,0 +1,185 @@
+%!TEX program = xelatex
+
+\documentclass[a4paper,UTF8]{ctexart}
+\usepackage[margin=1.25in]{geometry}
+\input{my-command.tex}
+
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{multirow}
+\usepackage{pdfpages}
+\usepackage{fontspec}                   % requires XeLaTeX
+
+\theoremstyle{definition}
+\newtheorem*{solution}{Solution}
+\newtheorem*{prove}{Proof}
+
+\setmainfont                    [Ligatures=TeX]{Times New Roman}
+\parindent=0pt
+\topskip=-200pt
+
+\begin{document}
+\title{PTC (Fall 2018) -- Assignment 3}
+\author{徐翔哲 161250170}
+\maketitle
+\newpage
+
+\section*{Problem 1}
+Consider the (deterministic) Turing machine $M$ given by 
+\[
+M = (\{q_0, q_1, q_2\}, \{a, b\}, \{a, b, B\}, \delta, q_0, B, \{q_2\})
+\]
+which has exactly four transitions defined in it, as described below.
+\begin{enumerate}
+  \item $\delta(q_0, a) = (q_0, B, R)$
+  \item $\delta(q_0, b) = (q_1, B, R)$
+  \item $\delta(q_1, b) = (q_1, B, R)$
+  \item $\delta(q_1, B) = (q_2, B, R)$
+\end{enumerate}
+Please answer the following questions:
+\begin{enumerate}
+  \item[a.]  Specify the execution trace of $M$ on the input string $abb$.
+  \item[b.] Provide a regular expression for the language of the Turing machine.
+  \item[c.]  Suppose we added the transition $\delta(q_1 ,a) = (q_0, B, R)$ to the above machine, provide a regular expression for the language of the resulting Turing machine.
+\end{enumerate}
+
+\subsection*{a}
+
+$q_0aab \goto q_0ab \goto q_0b \goto q_1B \goto q_2B $
+
+\subsection*{b}
+
+$a^*b^+$
+
+\subsection*{c}
+
+$a^*b^+(a^+b^+)^*$
+
+
+\section*{Problem 2}
+Please design TM$'$s to decide following languages:
+\begin{enumerate}
+  \item[a.] $L_1 = \{1^{m} \times 1^{n} = 1^{mn}\ |\ m, n \in \mathbb{N}^{+}\}$ (e.g. $11 \times 111 = 111111 \in L_1$, but $1 \times 1 = 11 \notin L_1$)
+  \item[b.] $L_2 = \{ww\ |\ w \in \{a,b\}^{*}\}$
+\end{enumerate}
+\subsection*{a}
+First, let's define a TM $M_1$ which will convert $\times 1^n=1^{n'}$
+ to $\times 1^n=1^{n'-n}$
+where $n' \geq n > 0 $
+
+\[M_1 = (\set{p_0,p_R,p_a,p_{a'},p_d,p_L,p_f,p_e},
+\set{1,0,\times,=}
+,\set{1,0,\times,=,B,a},\delta,p_0,B,\set{p_e})  \]
+At the beginning , the head should at $\times$
+Then we will enter $p_a$, which will change the first 1 to a 
+when the head goes right.
+
+$\trans{p_0, \times}{p_a,\times,R} $\\
+$\trans{p_a,a}{p_a,a,R}$\\
+$\trans{p_a,1}{p_R,a,R} $\\
+
+The state $p_R$ moves the head to the first blank at the right of the input,
+and then switches to state $p_d$, which will delete a 1.
+
+$\trans{p_R,X}{p_R,X,R} $, where $X = \set{=,1}$\\
+$\trans{p_R,B}{p_d,B,L} $\\
+$\trans{p_d,1}{p_L,B,L}$\\
+The state $p_L$ will moves to $\times$ and then enters $p_a'$
+
+$\trans{p_L,X}{p_L,X,L}$, where $X=\set{1,=,a}$\\
+$\trans{p_L,\times}{p_a,\times,R}$\\ 
+
+Then the state $p_{a'}$ will act as $p_a$, change a 1 to a, then 
+move to the right and delete a 1 ...... except that $p_{a'}$
+will go to the state $p_f$ if it sees no 1 before the =,
+under which condition $p_a$ would halt without accepting. 
+
+$\trans{p_{a'},a}{p_{a'},a,R}$\\
+$\trans{p_{a'},1}{p_R,a,R} $\\
+$\trans{p_{a'},=}{p_f,=,L} $\\
+
+The state $p_f$ will change all the a back to 1.
+
+$\trans{p_f,a}{p_f,1,L}$\\
+$\trans{p_f,\times}{p_e,\times,R}$
+
+Then we construct the TM $M$ to describe the language $L_1$
+
+\[M = (
+  M_1.states \cup \set{q_0,q_R,q_{call},q_L,q_1,q_e,q_{check},q_f},
+  \set{1,0,\times,=},
+  \set{1,0,\times,=,B,a},
+  M_1.\delta \cup \delta,
+  q_0,B,\set{q_f} )\]
+
+The state $q_0$ will remove the first 1, and goes to state $q_R$
+
+$\trans{q_0,1}{q_R,B,R} $
+
+The state $q_R$ will move to the $\times$ and then enters $q_{call}$
+
+$\trans{q_R,1}{q_R,1,R}$\\
+$\trans{q_R,\times}{q_{call},\times,L}$
+
+The state $q_{call}$ will call the $M_1$
+
+$\trans{q_call,1}{p_0,1,R}$
+
+When the M returns from $M_1$, state $q_L$ will move the head
+to the blank left to .
+
+\section*{Problem 3}
+A \textit{useless state} in a Turing machine is one that is never entered on any input string. Consider the problem of determining whether a state in a Turing machine is useless. Formulate this problem as a language and show it is decidable or undecidable. (\textbf{Hint}: consider the language $E_{\mathrm{TM}}$)
+\begin{solution}
+\end{solution}
+\newpage
+
+\section*{Problem 4}
+Show that the following questions are decidable:
+\begin{enumerate}
+  \item[a.] The set $L$ of codes for TM’s $M$ such that, when started with the blank tape will eventually write some nonblank symbol on its tape. (\textbf{Hint}: If $M$ has $m$ states, consider the first $m$ transitions that it makes)
+  \item[b.] The set $L$ of codes for TM’s that never make a move left on any input.
+  \item[c.] The set $L$ of pairs $(M,w)$ such that TM $M$, started with input $w$, never scans any tape cell more than once.
+\end{enumerate}
+\begin{prove}
+\end{prove}
+\newpage
+
+\section*{Problem 5}
+If a pushdown automaton has $k$ stacks, we call it $k$−PDA. Clearly, 0−PDA is NFA, 1−PDA is PDA, and 1−PDA is more powerful than 0−PDA.
+\begin{enumerate}
+  \item[1.] What is the difference between the express ability of 2-PDA and 1-PDA. Please clarify your argument. Prove the (un)equivalence.
+  \item[2.] How about 3-PDA and 2-PDA.
+\end{enumerate}
+\begin{solution}
+\end{solution}
+\newpage
+
+\section*{Problem 6}
+Suppose we have an encoding of context-free grammars using some finite alphabet. Consider the following two languages:
+\begin{enumerate}
+  \item[1.] $L_1$ = \big\{$(G,A,B)$\ |\ $G$ is a (coded) CFG, $A$ and $B$ are (coded) varibles of $G$, and the sets of terminal strings derived from $A$ and $B$ are the same\big\}.
+  \item[2.] $L_2$ = \big\{$(G_1,G_2)$\ |\ $G_1$ and $G_2$ are (coded) CFG$'$s, and $L(G_1) = L(G_2)$\big\}.
+\end{enumerate}
+Answer the following questions:
+\begin{enumerate}
+  \item[a.] Show that $L_1$ is polynomial-time reducible to $L_2$.
+  \item[b.] Show that $L_2$ is polynomial-time reducible to $L_1$.
+\end{enumerate}
+\begin{prove}
+\end{prove}
+\newpage
+
+\section*{Problem 7}
+As classes of languages, $\mathcal{P}$ and $\mathcal{NP}$ each have certain closure properties. Prove or disprove that $\mathcal{P}$ and $\mathcal{NP}$ are closed under each of the following operations:
+\begin{enumerate}
+  \item[a.] Union.
+  \item[b.] Concatenation.
+  \item[c.] Complementation.
+\end{enumerate}
+\begin{prove}
+\end{prove}
+\end{document} 
